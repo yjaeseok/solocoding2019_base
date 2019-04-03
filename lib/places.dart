@@ -22,23 +22,23 @@ class Place {
   String toString() => 'Place: $name';
 }
 
-/*Future<Stream<Place>>*/ getPlaces(double lat, double lng) async {
+Future<Stream<Place>> getPlaces(double lat, double lng) async {
   var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
       '?location=$lat,$lng' +
       '&radius=2000&type=restraurant&keyword=맛집' +
       '&key=$key';
 
-  http.get(url).then((res) => print(res.body));
+  // http.get(url).then((res) => print(res.body));
 
-  // http.Client client = http.Client();
-  // http.StreamedResponse streamedResponse =
-  //     await client.send(http.Request('get', Uri.parse(url)));
+  http.Client client = http.Client();
+  http.StreamedResponse streamedResponse =
+      await client.send(http.Request('get', Uri.parse(url)));
 
-  // return streamedResponse.stream
-  //     .transform(utf8.decoder)
-  //     .transform(json.decoder)
-  //     .expand((jsonBody) => (jsonBody as Map)['results'])
-  //     .map((jsonBody) => Place.fromJson(jsonBody))
-  //     .listen((data) => print(data))
-  //     .onDone(() => client.close());
+  return streamedResponse.stream
+      .transform(utf8.decoder)
+      .transform(json.decoder)
+      .expand((jsonBody) => (jsonBody as Map)['results'])
+      .map((jsonBody) => Place.fromJson(jsonBody));
+  // .listen((data) => print(data))
+  // .onDone(() => client.close());
 }

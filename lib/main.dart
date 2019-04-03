@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solocoding2019_base/places.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,6 +10,18 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
+  List<Place> _places = new List();
+  @override
+  void initState() {
+    listenForPlaces();
+    super.initState();
+  }
+
+  void listenForPlaces() async {
+    var stream = await getPlaces(37.290414, 127.0485383);
+    stream.listen((place) => setState(() => _places.add(place)));
+  }
+
   @override
   Widget build(BuildContext context) {
     // set material design app
@@ -22,8 +35,37 @@ class MyAppState extends State<MyApp> {
           title: Text('Flutter Demo'), // app bar title
         ),
         body: Center(
-          child: Text('Hello, world'), // center text
+            child: ListView(
+          children: _places.map((place) => PlaceWidget(place)).toList(),
+        )),
+      ),
+    );
+  }
+}
+
+class PlaceWidget extends StatelessWidget {
+  final Place place;
+
+  PlaceWidget(this.place);
+
+  Color getColor() {
+    return Color.lerp(Colors.red, Colors.blue, place.rating / 5.0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dismissible(
+      key: Key(place.name),
+      child: ListTile(
+        leading: CircleAvatar(
+          child: Text(place.rating.toString()),
+          backgroundColor: getColor(),
         ),
+        title: Text(place.name),
+        subtitle: Text(place.address),
+        onTap: () => Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(place.name + ' is tapped'),
+            )),
       ),
     );
   }
