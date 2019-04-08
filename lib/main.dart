@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:solocoding2019_base/data/todo.dart';
+import 'package:solocoding2019_base/view/todo_list_widget.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Tododododododo());
 
-// This widget is the root of your application.
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => new MyAppState();
-}
-
-class MyAppState extends State<MyApp> {
+class Tododododododo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // set material design app
@@ -17,14 +13,7 @@ class MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter Demo'), // app bar title
-        ),
-        body: Center(
-          child: Text('Hello, world'), // center text
-        ),
-      ),
+      home: TodoListWidget(),
     );
   }
 }
