@@ -12,12 +12,18 @@ class Project {
   final int isTutorial;
 
   Project.fromJson(Map jsonMap)
-      : userId = jsonMap['userId'],
-        projectId = jsonMap['projectId'],
-        description = jsonMap['description'],
-        commitCount = jsonMap['commitCount'],
-        avatarUrl = jsonMap['avatarUrl'],
-        isTutorial = jsonMap['isTutorial'];
+      : userId = jsonMap['userId'] == null
+            ? jsonMap['projectId'].toString().split('/')[0]
+            : jsonMap['userId'],
+        projectId = jsonMap['projectId'] == null
+            ? 'gdgsuwon/solocoding2019_base'
+            : jsonMap['projectId'],
+        description =
+            jsonMap['description'] == null ? '' : jsonMap['description'],
+        commitCount =
+            jsonMap['commitCount'] == null ? 8 : jsonMap['commitCount'],
+        avatarUrl = jsonMap['avatarUrl'] == null ? '' : jsonMap['avatarUrl'],
+        isTutorial = jsonMap['isTutorial'] == null ? 0 : jsonMap['isTutorial'];
 
   String toString() => 'Project: userId: $userId';
 }
