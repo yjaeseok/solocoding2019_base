@@ -59,8 +59,8 @@ class ProjectCommitWidget extends StatelessWidget {
   final int commitCount;
 
   getColor() {
-    if (commitCount <= 15) {
-      return Color.lerp(Colors.white, Colors.blue, (commitCount - 6) / 8.0);
+    if (commitCount <= 18) {
+      return Color.lerp(Colors.white, Colors.blue, (commitCount - 6) / 11.0);
     } else {
       return Colors.blue;
     }
