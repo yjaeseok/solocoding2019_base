@@ -42,7 +42,7 @@ class ProjectTileState extends State<ProjectTileWidget> {
                   ))
       ]),
       title: Text(project.userId),
-      subtitle: Text(project.projectId),
+      subtitle: Text(project.description),
       trailing: ProjectTrainlingWidget(project),
       onTap: () => launchUrl('https://github.com/' + project.projectId),
     );
