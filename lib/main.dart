@@ -22,7 +22,8 @@ class SoloCodingDashBoard extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('나 코딩한다 Flutter 편'), // app bar title
+          leading: Image.asset('res/images/solocoding.png'),
+          title: Text('나 코딩한다 Flutter 편!'), // app bar title
         ),
         body: Center(
           child: ProjectListWidget(), // center text

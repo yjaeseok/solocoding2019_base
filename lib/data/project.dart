@@ -7,13 +7,15 @@ class Project {
   final String userId;
   final String projectId;
   final String description;
-  String profileImagePath;
+  final int commitCount;
+  final String avatarUrl;
 
   Project.fromJson(Map jsonMap)
-      : userId = jsonMap['projectId'].toString().split('/')[0],
+      : userId = jsonMap['userId'],
         projectId = jsonMap['projectId'],
         description = jsonMap['description'],
-        profileImagePath = "";
+        commitCount = jsonMap['commitCount'],
+        avatarUrl = jsonMap['avatarUrl'];
 
   String toString() => 'Project: userId: $userId';
 }

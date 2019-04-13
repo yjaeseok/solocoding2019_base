@@ -23,34 +23,16 @@ class ProjectTileState extends State<ProjectTileWidget> {
 
   @override
   void initState() {
-    initProfileImagePath();
     super.initState();
-  }
-
-  void initProfileImagePath() async {
-    var res = await http.get('https://api.github.com/users/' +
-        project.userId +
-        '?client_id=$client_id&client_secret=$client_secret');
-    setState(() {
-      if (res.statusCode == 200) {
-        var data = json.decode(res.body);
-        project.profileImagePath = data["avatar_url"] as String;
-      } else {
-        print('https://api.github.com/users/' +
-            project.userId +
-            'statusCode' +
-            res.statusCode.toString());
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleNetworkImage(project.profileImagePath),
+      leading: CircleNetworkImage(project.avatarUrl),
       title: Text(project.userId),
       subtitle: Text(project.projectId),
-      trailing: ProjectTrainlingWidget(),
+      trailing: ProjectTrainlingWidget(project),
       onTap: () => launchUrl('https://github.com/' + project.projectId),
     );
   }
@@ -65,42 +47,29 @@ class ProjectTileState extends State<ProjectTileWidget> {
 }
 
 class ProjectTrainlingWidget extends StatelessWidget {
+  final Project project;
+  ProjectTrainlingWidget(this.project);
   @override
   Widget build(BuildContext context) {
-    return Row(children: [ProjectIssueWidget(), new Text('I miss you')]);
-  }
-}
-
-class ProjectIssueWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      elevation: 0.0,
-      color: Colors.orange,
-      child: Text(
-        "0",
-        style: Theme.of(context).primaryTextTheme.headline,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(30.0),
-      ),
-    );
+    return ProjectCommitWidget(project.commitCount);
   }
 }
 
 class ProjectCommitWidget extends StatelessWidget {
+  final int commitCount;
+
+  getColor() {
+    if (commitCount <= 15) {
+      return Color.lerp(Colors.white, Colors.blue, (commitCount - 6) / 8.0);
+    } else {
+      return Colors.blue;
+    }
+  }
+
+  ProjectCommitWidget(this.commitCount);
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      elevation: 0.0,
-      color: Colors.orange,
-      child: Text(
-        "1",
-        style: Theme.of(context).primaryTextTheme.headline,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(30.0),
-      ),
-    );
+    return CircleAvatar(
+        backgroundColor: getColor(), child: Text(commitCount.toString()));
   }
 }
