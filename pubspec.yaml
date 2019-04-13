@@ -46,6 +46,7 @@ flutter:
 
   assets:
     - res/images/solocoding.png
+    - res/images/smile.png
     - res/images/success.png
   # To add assets to your application, add an assets section, like this:
   # assets:

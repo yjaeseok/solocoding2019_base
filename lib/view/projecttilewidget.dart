@@ -31,17 +31,15 @@ class ProjectTileState extends State<ProjectTileWidget> {
     return ListTile(
       leading: Stack(children: <Widget>[
         CircleNetworkImage(project.avatarUrl),
-        project.isTutorial > 0
-            ? {
-                Positioned(
-                    right: 0,
-                    height: 25,
-                    width: 25,
-                    child: Image.asset('res/images/success.png'))
-              }
-            : IgnorePointer(
-                ignoring: true,
-              )
+        Positioned(
+            right: 0,
+            height: 25,
+            width: 25,
+            child: project.isTutorial > 0
+                ? Image.asset('res/images/smile.png')
+                : IgnorePointer(
+                    ignoring: true,
+                  ))
       ]),
       title: Text(project.userId),
       subtitle: Text(project.projectId),
