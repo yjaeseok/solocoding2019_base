@@ -9,13 +9,15 @@ class Project {
   final String description;
   final int commitCount;
   final String avatarUrl;
+  final int isTutorial;
 
   Project.fromJson(Map jsonMap)
       : userId = jsonMap['userId'],
         projectId = jsonMap['projectId'],
         description = jsonMap['description'],
         commitCount = jsonMap['commitCount'],
-        avatarUrl = jsonMap['avatarUrl'];
+        avatarUrl = jsonMap['avatarUrl'],
+        isTutorial = jsonMap['isTutorial'];
 
   String toString() => 'Project: userId: $userId';
 }

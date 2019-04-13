@@ -29,7 +29,20 @@ class ProjectTileState extends State<ProjectTileWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleNetworkImage(project.avatarUrl),
+      leading: Stack(children: <Widget>[
+        CircleNetworkImage(project.avatarUrl),
+        project.isTutorial > 0
+            ? {
+                Positioned(
+                    right: 0,
+                    height: 25,
+                    width: 25,
+                    child: Image.asset('res/images/success.png'))
+              }
+            : IgnorePointer(
+                ignoring: true,
+              )
+      ]),
       title: Text(project.userId),
       subtitle: Text(project.projectId),
       trailing: ProjectTrainlingWidget(project),
