@@ -1,8 +1,5 @@
 android/app/key.properties
 
-lib/key.dart
-# Created by https://www.gitignore.io/api/dart,swift,xcode,android,intellij,cocoapods,objective-c,androidstudio
-
 ### Android ###
 # Built application files
 *.apk

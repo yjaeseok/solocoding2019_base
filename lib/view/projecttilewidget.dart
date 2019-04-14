@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:solocoding2019_base/data/project.dart';
 import 'package:solocoding2019_base/view/circlenetworkimage.dart';
-import 'package:solocoding2019_base/key.dart';
 
 import 'dart:convert';
 import 'dart:async';
