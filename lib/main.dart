@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:solocoding2019_base/data/project.dart';
-import 'package:solocoding2019_base/view/circlenetworkimage.dart';
+import 'package:solocoding2019_base/view/splashscreen.dart';
 import 'package:solocoding2019_base/view/projecttilewidget.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MaterialApp(
+    home: SplashScreen(),
+    routes: <String, WidgetBuilder>{
+      '/HomeScreen': (BuildContext context) => HomeScreen()
+    },
+  ));
+}
 
 // This widget is the root of your application.
-class MyApp extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new SoloCodingDashBoard();
 }
 
-class SoloCodingDashBoard extends State<MyApp> {
+class SoloCodingDashBoard extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // set material design app
