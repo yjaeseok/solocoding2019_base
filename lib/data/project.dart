@@ -7,6 +7,9 @@ class Project {
   final String projectId;
   final String description;
   final int commitCount;
+  final int defaultFeatureScore;
+  final int newFeatureScore;
+  final int readmeScore;
   final String avatarUrl;
   final int isTutorial;
 
@@ -21,6 +24,13 @@ class Project {
             jsonMap['description'] == null ? '' : jsonMap['description'],
         commitCount =
             jsonMap['commitCount'] == null ? 8 : jsonMap['commitCount'],
+        defaultFeatureScore = jsonMap['defaultFeatureScore'] == null
+            ? 0
+            : jsonMap['defaultFeatureScore'],
+        newFeatureScore =
+            jsonMap['newFeatureScore'] == null ? 0 : jsonMap['newFeatureScore'],
+        readmeScore =
+            jsonMap['readmeScore'] == null ? 0 : jsonMap['readmeScore'],
         avatarUrl = jsonMap['avatarUrl'] == null ? '' : jsonMap['avatarUrl'],
         isTutorial = jsonMap['isTutorial'] == null ? 0 : jsonMap['isTutorial'];
 

@@ -3,11 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:solocoding2019_base/data/project.dart';
 import 'package:solocoding2019_base/view/circlenetworkimage.dart';
 
-import 'dart:convert';
-import 'dart:async';
-
-import 'package:http/http.dart' as http;
-
 class ProjectTileWidget extends StatefulWidget {
   final Project project;
   ProjectTileWidget(this.project);
@@ -19,6 +14,22 @@ class ProjectTileWidget extends StatefulWidget {
 class ProjectTileState extends State<ProjectTileWidget> {
   final Project project;
   ProjectTileState(this.project);
+
+  Widget getIcon() {
+    if (project.description.startsWith("Memo")) {
+      return Icon(Icons.note, color: Colors.brown);
+    } else if (project.description.startsWith("Map")) {
+      return Icon(Icons.map, color: Colors.blueGrey);
+    } else if (project.description.startsWith("Todo")) {
+      return Icon(Icons.alarm_on, color: Colors.blueAccent);
+    } else if (project.description.startsWith("Calculator")) {
+      return Icon(Icons.add_circle_outline, color: Colors.greenAccent);
+    } else if (project.description.startsWith("Weather")) {
+      return Icon(Icons.brightness_low, color: Colors.red);
+    } else {
+      return Image.asset("res/images/solocoding.png", width: 20, height: 20);
+    }
+  }
 
   @override
   void initState() {
@@ -41,7 +52,22 @@ class ProjectTileState extends State<ProjectTileWidget> {
                   ))
       ]),
       title: Text(project.userId),
-      subtitle: Text(project.description),
+      subtitle: Row(
+        children: <Widget>[
+          getIcon(),
+          Text(" 구현점수: " +
+              project.defaultFeatureScore.toString() +
+              " + " +
+              project.newFeatureScore.toString() +
+              " + " +
+              project.readmeScore.toString() +
+              " = " +
+              (project.defaultFeatureScore +
+                      project.newFeatureScore +
+                      project.readmeScore)
+                  .toString())
+        ],
+      ),
       trailing: ProjectTrainlingWidget(project),
       onTap: () => launchUrl('https://github.com/' + project.projectId),
     );
