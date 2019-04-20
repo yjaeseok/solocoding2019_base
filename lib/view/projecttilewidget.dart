@@ -15,9 +15,13 @@ class ProjectTileState extends State<ProjectTileWidget> {
   final Project project;
   ProjectTileState(this.project);
 
+  getProgressColor() {
+    return Color.lerp(Colors.blueGrey, Colors.blue, project.totalScore / 100.0);
+  }
+
   Widget getIcon() {
     if (project.description.startsWith("Memo")) {
-      return Icon(Icons.note, color: Colors.brown);
+      return Icon(Icons.event_note, color: Colors.brown);
     } else if (project.description.startsWith("Map")) {
       return Icon(Icons.map, color: Colors.blueGrey);
     } else if (project.description.startsWith("Todo")) {
@@ -38,39 +42,51 @@ class ProjectTileState extends State<ProjectTileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Stack(children: <Widget>[
-        CircleNetworkImage(project.avatarUrl),
-        Positioned(
-            right: 0,
-            height: 25,
-            width: 25,
-            child: project.isTutorial > 0
-                ? Image.asset('res/images/smile.png')
-                : IgnorePointer(
-                    ignoring: true,
-                  ))
-      ]),
-      title: Text(project.userId),
-      subtitle: Row(
-        children: <Widget>[
-          getIcon(),
-          Text(" 구현점수: " +
-              project.defaultFeatureScore.toString() +
-              " + " +
-              project.newFeatureScore.toString() +
-              " + " +
-              project.readmeScore.toString() +
-              " = " +
-              (project.defaultFeatureScore +
-                      project.newFeatureScore +
-                      project.readmeScore)
-                  .toString())
-        ],
-      ),
-      trailing: ProjectTrainlingWidget(project),
-      onTap: () => launchUrl('https://github.com/' + project.projectId),
-    );
+    return Card(
+        elevation: 3.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        child: Container(
+            child: ListTile(
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          leading: Container(
+              padding: EdgeInsets.only(right: 12.0),
+              child: Stack(children: <Widget>[
+                CircleNetworkImage(project.avatarUrl),
+                Positioned(
+                    right: 0,
+                    height: 25,
+                    width: 25,
+                    child: project.isTutorial > 0
+                        ? Image.asset('res/images/smile.png')
+                        : IgnorePointer(
+                            ignoring: true,
+                          ))
+              ])),
+          title: Text(project.userId,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Row(
+            children: <Widget>[
+              getIcon(),
+              Expanded(
+                flex: 4,
+                child: Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Text(project.description)),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: LinearProgressIndicator(
+                        value: project.totalScore / 100.0,
+                        valueColor: AlwaysStoppedAnimation(getProgressColor())),
+                  )),
+            ],
+          ),
+          trailing: ProjectTrainlingWidget(project),
+          onTap: () => launchUrl('https://github.com/' + project.projectId),
+        )));
   }
 
   launchUrl(url) async {
@@ -87,25 +103,16 @@ class ProjectTrainlingWidget extends StatelessWidget {
   ProjectTrainlingWidget(this.project);
   @override
   Widget build(BuildContext context) {
-    return ProjectCommitWidget(project.commitCount);
+    return ProjectCommitWidget(project.totalScore);
   }
 }
 
 class ProjectCommitWidget extends StatelessWidget {
-  final int commitCount;
+  final int totalScore;
 
-  getColor() {
-    if (commitCount <= 18) {
-      return Color.lerp(Colors.white, Colors.blue, (commitCount - 6) / 11.0);
-    } else {
-      return Colors.blue;
-    }
-  }
-
-  ProjectCommitWidget(this.commitCount);
+  ProjectCommitWidget(this.totalScore);
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-        backgroundColor: getColor(), child: Text(commitCount.toString()));
+    return CircleAvatar(child: Text(totalScore.toString()));
   }
 }

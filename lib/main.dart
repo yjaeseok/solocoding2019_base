@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:solocoding2019_base/data/project.dart';
 import 'package:solocoding2019_base/view/attendee.dart';
 import 'package:solocoding2019_base/view/gdgsuwon.dart';
@@ -30,9 +31,7 @@ class SoloCodingDashBoard extends State<HomeScreen> {
     // set material design app
     return MaterialApp(
       title: '나코딩한다', // application name
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primaryColor: Colors.blue),
       home: Scaffold(
         key: _scaffoldKey,
         endDrawer: MenuDrawer(),
@@ -90,6 +89,14 @@ class MenuDrawer extends StatelessWidget {
     ));
   }
 
+  launchUrl(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -111,7 +118,7 @@ class MenuDrawer extends StatelessWidget {
             title: Text('나 코딩한다 소개'),
             onTap: () {
               Navigator.pop(context);
-              showSnackBar(context, "준비 중 입니다.");
+              launchUrl('https://festa.io/events/268');
             },
           ),
           ListTile(
@@ -126,6 +133,8 @@ class MenuDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               showSnackBar(context, "준비 중 입니다.");
+              //Navigator.popAndPushNamed(context, '/GDGSuwon');
+              //launchUrl('https://gdgsuwon.github.io/');
             },
           ),
           ListTile(

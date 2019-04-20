@@ -10,6 +10,7 @@ class Project {
   final int defaultFeatureScore;
   final int newFeatureScore;
   final int readmeScore;
+  final int totalScore;
   final String avatarUrl;
   final int isTutorial;
 
@@ -32,7 +33,14 @@ class Project {
         readmeScore =
             jsonMap['readmeScore'] == null ? 0 : jsonMap['readmeScore'],
         avatarUrl = jsonMap['avatarUrl'] == null ? '' : jsonMap['avatarUrl'],
-        isTutorial = jsonMap['isTutorial'] == null ? 0 : jsonMap['isTutorial'];
+        isTutorial = jsonMap['isTutorial'] == null ? 0 : jsonMap['isTutorial'],
+        totalScore = (jsonMap['defaultFeatureScore'] == null
+                ? 0
+                : jsonMap['defaultFeatureScore']) +
+            (jsonMap['newFeatureScore'] == null
+                ? 0
+                : jsonMap['newFeatureScore']) +
+            (jsonMap['readmeScore'] == null ? 0 : jsonMap['readmeScore']);
 
   String toString() => 'Project: userId: $userId';
 }
