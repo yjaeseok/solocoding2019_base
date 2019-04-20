@@ -19,6 +19,18 @@ class ProjectTileState extends State<ProjectTileWidget> {
     return Color.lerp(Colors.blueGrey, Colors.blue, project.totalScore / 100.0);
   }
 
+  getRankColor() {
+    if (project.rank <= 1) {
+      return Colors.red;
+    } else if (project.rank <= 5) {
+      return Colors.yellow;
+    } else if (project.rank <= 10) {
+      return Colors.green;
+    } else {
+      return Colors.blue;
+    }
+  }
+
   Widget getIcon() {
     if (project.description.startsWith("Memo")) {
       return Icon(Icons.event_note, color: Colors.brown);
@@ -55,13 +67,21 @@ class ProjectTileState extends State<ProjectTileWidget> {
                 CircleNetworkImage(project.avatarUrl),
                 Positioned(
                     right: 0,
-                    height: 25,
-                    width: 25,
+                    height: 20,
+                    width: 20,
                     child: project.isTutorial > 0
                         ? Image.asset('res/images/smile.png')
                         : IgnorePointer(
                             ignoring: true,
-                          ))
+                          )),
+                Positioned(
+                    left: 0,
+                    height: 20,
+                    width: 20,
+                    child: CircleAvatar(
+                      child: Text(project.rank.toString()),
+                      backgroundColor: getRankColor(),
+                    ))
               ])),
           title: Text(project.userId,
               style: TextStyle(fontWeight: FontWeight.bold)),

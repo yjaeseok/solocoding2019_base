@@ -13,8 +13,9 @@ class Project {
   final int totalScore;
   final String avatarUrl;
   final int isTutorial;
+  final int rank;
 
-  Project.fromJson(Map jsonMap)
+  Project.fromJson(Map jsonMap, int inRank)
       : userId = jsonMap['userId'] == null
             ? jsonMap['projectId'].toString().split('/')[0]
             : jsonMap['userId'],
@@ -40,7 +41,8 @@ class Project {
             (jsonMap['newFeatureScore'] == null
                 ? 0
                 : jsonMap['newFeatureScore']) +
-            (jsonMap['readmeScore'] == null ? 0 : jsonMap['readmeScore']);
+            (jsonMap['readmeScore'] == null ? 0 : jsonMap['readmeScore']),
+        rank = inRank;
 
   String toString() => 'Project: userId: $userId';
 }
@@ -50,6 +52,7 @@ main() {
 }
 
 /*Future<Stream<Project>>*/ getProjects() async {
+  int rank = 1;
   var url =
       'https://raw.githubusercontent.com/gdgsuwon/solocoding2019_dashboard/master/data.json';
 
@@ -63,7 +66,7 @@ main() {
       .transform(utf8.decoder)
       .transform(json.decoder)
       .expand((jsonBody) => (jsonBody as Map)['project'])
-      .map((jsonBody) => Project.fromJson(jsonBody));
+      .map((jsonBody) => Project.fromJson(jsonBody, rank++));
   // .listen((data) => print(data))
   // .onDone(() => client.close());
 }
